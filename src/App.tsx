@@ -1,5 +1,6 @@
 import { useState } from "react";
 import TaskForm from "./components/TaskForm/TaskForm";
+import TaskList from "./components/TaskList/TaskList";
 import type { Task, TaskFormData } from "./types";
 
 function App() {
@@ -7,14 +8,23 @@ function App() {
 
     function handleAddTask(formData: TaskFormData) {
       const newTask: Task = {
+        
+      // generates a unique identifier for each task
         id: crypto.randomUUID(),
+      // The spread operator copies all properties from formData  into the new object.
         ...formData,
       };
 
       setTasks([...tasks, newTask]);
 
+     console.log("new task =====>", newTask);
+     console.log("current tasks =======>", [...tasks, newTask]); 
+
     }
 
+    function handleStatusChange(){}
+    function handleDelete(){}
+    function handleEdit(){}
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
@@ -22,19 +32,19 @@ function App() {
         Task Dashboard
       </h1>
       <div>
+        {/* TaskForm component */}
         <TaskForm onSubmit={handleAddTask} />
+        
+        {/* TaskList component */}
+        <TaskList
+        tasks={tasks}
+        onStatusChange={handleStatusChange}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+      />
 
-        {tasks.map((task) => (
-          <article key={task.id} className="rounded-lg border p-4">
-            <h3>Title:{task.title}</h3>
-            <p>Description{task.description}</p>
-            <p>Status: {task.status}</p>
-            <p>Priority: {task.priority}</p>
-            <p>Due date: {task.dueDate}</p>
-          </article>
-        ))}
+      </div>
 
-        </div>
     </div>
 
   );

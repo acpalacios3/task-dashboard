@@ -61,7 +61,7 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
         // renders the form fields and the submit button
         <form onSubmit={handleSubmit}>
 
-            <div>
+            <div>  
                 <label htmlFor="title">
                     Task Title
                 </label>
@@ -76,14 +76,14 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
 
             <div>
 
-                <label htmlFor="title">
+                <label htmlFor="descripcion">
                     Descripcion
                 </label>
                 <input
-                    id="descripcion"
-                    name="descripcion"
+                    id="description"
+                    name="description"
                     type="text"
-                    value={formData.descripcion}
+                    value={formData.description}
                     onChange={handleChange}
                 />
 
@@ -92,7 +92,7 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
 
             <div>
 
-                <label htmlFor="title">
+                <label htmlFor="status">
                     Status
                 </label>
                 <input
@@ -107,8 +107,8 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
 
             <div>
 
-                <label htmlFor="title">
-                    Status
+                <label htmlFor="priority">
+                    Priority
                 </label>
                 <input
                     id="priority"
@@ -122,8 +122,8 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
 
             <div>
 
-                <label htmlFor="title">
-                    Status
+                <label htmlFor="dueDate">
+                    Due Date
                 </label>
                 <input
                     id="dueDate"
