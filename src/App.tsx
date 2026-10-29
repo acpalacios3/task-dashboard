@@ -6,9 +6,26 @@ import type { Task, TaskFormData, TaskStatus } from "./types";
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  function handleAddTask(formData: TaskFormData) {
-    const newTask: Task = {
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
 
+
+  function handleAddTask(formData: TaskFormData) {
+  
+    if (editingTask) {
+    // Updates the existing task and preserves its ID.
+    setTasks((previousTasks) =>
+      previousTasks.map((task) =>
+        task.id === editingTask.id
+          ? { ...task, ...formData }
+          : task
+      )
+    );
+
+    setEditingTask(null);
+
+  } else {
+    // Creates a new task.
+    const newTask: Task = {
       // generates a unique identifier for each task
       id: crypto.randomUUID(),
       // The spread operator copies all properties from formData  into the new object.
@@ -16,11 +33,10 @@ function App() {
     };
 
     setTasks((previousTasks) => [...previousTasks, newTask]);
-
-    console.log("new task =====>", newTask);
-
+     console.log("new task =====>", newTask);
   }
-
+}
+   
   //  delete a task by filtering out the task with the matching id
   function handleDelete(taskId: string) {
     setTasks((previousTasks) =>
@@ -44,7 +60,9 @@ function App() {
     );
   }
 
-  function handleEdit() { }
+  function handleEdit(task: Task) {
+     setEditingTask(task);
+   }
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
@@ -53,7 +71,10 @@ function App() {
       </h1>
       <div>
         {/* TaskForm component */}
-        <TaskForm onSubmit={handleAddTask} />
+        <TaskForm onSubmit={handleAddTask}
+         taskToEdit={editingTask}
+        
+        />
 
         {/* TaskList component */}
         <TaskList

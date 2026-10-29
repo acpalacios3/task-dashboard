@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { TaskFormData } from "../../types";
 
 // export type TaskStatus = 'pending' | 'in-progress' | 'completed';
@@ -14,10 +14,11 @@ import type { TaskFormData } from "../../types";
 
 interface TaskFormProps {
     onSubmit: (FormData: TaskFormData) => void;
+    taskToEdit: Task | null;
 
 }
 
-export default function TaskForm({ onSubmit }: TaskFormProps) {
+export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
     // stores the values entered in the form
     const [formData, setFormData] = useState<TaskFormData>({
         title: '',
@@ -26,6 +27,30 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
         priority: 'medium',
         dueDate: '',
     });
+
+
+    // loads the selected task into the form for editing.
+    useEffect(() => {
+        if (taskToEdit) {
+            setFormData({
+            title: taskToEdit.title,
+            description: taskToEdit.description,
+            status: taskToEdit.status,
+            priority: taskToEdit.priority,
+            dueDate: taskToEdit.dueDate,
+            });
+        } else {
+            setFormData({
+            title: "",
+            description: "",
+            status: "pending",
+            priority: "medium",
+            dueDate: "",
+            });
+        }
+
+    },[taskToEdit]);
+
     // updates the corresponding field whenever the user types or selects a value
     function handleChange(
         event: React.ChangeEvent<
@@ -139,7 +164,7 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
                 className=" rounded-md border bg-blue-600 p-2 font-semibold text-white "
                 type="submit"
             >
-                Add Task
+                {taskToEdit ? "Update Task" : "Add Task"}
             </button>
 
         </form>
