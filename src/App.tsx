@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TaskForm from "./components/TaskForm/TaskForm";
 import TaskList from "./components/TaskList/TaskList";
-import type { Task, TaskFormData } from "./types";
+import type { Task, TaskFormData, TaskStatus } from "./types";
 
 function App() {
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -15,16 +15,37 @@ function App() {
         ...formData,
       };
 
-      setTasks([...tasks, newTask]);
+    setTasks((previousTasks) => [...previousTasks, newTask]);
 
      console.log("new task =====>", newTask);
-     console.log("current tasks =======>", [...tasks, newTask]); 
-
+   
     }
 
-    function handleStatusChange(){}
-    function handleDelete(){}
-    function handleEdit(){}
+   //  delete a task by filtering out the task with the matching id
+  function handleDelete(taskId: string) {
+    setTasks((previousTasks) =>
+      previousTasks.filter(
+        (task) => task.id !== taskId)
+    );
+  }
+
+  // Update the status of the task with the matching id
+  function handleStatusChange(taskId: string, newStatus: TaskStatus) {
+
+    console.log("task id =====>", taskId);
+    console.log("new status===>", newStatus);
+
+    // create a new array with the updated task status
+    setTasks((previousTasks) =>
+      previousTasks.map((task) =>
+        task.id === taskId ? { ...task, status: newStatus } : task
+      )
+      
+    );
+  }
+
+
+ function handleEdit(){}
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
