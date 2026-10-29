@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import TaskForm from "./components/TaskForm/TaskForm";
 import TaskList from "./components/TaskList/TaskList";
 import type { Task, TaskFormData, TaskStatus } from "./types";
+import type { ChangeEvent } from "react";
 
 function App() {
 
@@ -110,6 +111,53 @@ useEffect(() => {
 
 
 
+// Validate the data before importing the data from the JSON file.
+
+function isValidTaskArray(data: unknown): data is Task[] {
+    return (
+        Array.isArray(data) &&
+        data.every((task) =>
+            typeof task.id === "string" &&
+            typeof task.title === "string" &&
+            typeof task.description === "string" &&
+            typeof task.dueDate === "string" &&
+            ["pending", "in-progress", "completed"].includes(task.status) &&
+            ["low", "medium", "high"].includes(task.priority)
+        )
+    );
+}
+
+
+async function handleImport(
+    event: ChangeEvent<HTMLInputElement>
+) {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    try {
+        const fileText = await file.text();
+
+        const importedTasks: unknown = JSON.parse(fileText);
+
+        if (!isValidTaskArray(importedTasks)) {
+            alert("Invalid task file format.");
+            return;
+        }
+
+        setTasks(importedTasks);
+
+        alert("Tasks imported successfully!");
+
+    } catch (error) {
+        console.error("Import error:", error);
+        alert("Unable to import the JSON file.");
+    }
+
+    event.target.value = "";
+}
+
+
   return (
     <div className="min-h-screen bg-slate-100 p-8">
       <h1 className="text-1xl font-bold">
@@ -118,15 +166,39 @@ useEffect(() => {
       <div>
 
 
-        {/* Export tasks */}
-        <button
-            className=" rounded-md border bg-blue-600 p-2 font-semibold text-white"
-            type="button"
-            onClick={handleExport}
-           
-        >
-            Export Tasks
-        </button>
+        <div className="flex gap-3 mb-6">
+
+              {/* Export tasks */}
+              <button
+                  type="button"
+                  onClick={handleExport}
+                  className="bg-blue-600 text-white px-4 py-2 rounded"
+              >
+                  Export Tasks
+              </button>
+
+              {/* Import tasks */}
+
+              <label
+                  htmlFor="import-tasks"
+                  className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer"
+              >
+                  Import Tasks
+              </label>
+
+              <input
+                  id="import-tasks"
+                  type="file"
+                  accept=".json,application/json"
+                  onChange={handleImport}
+                  className="hidden"
+              />
+
+              
+</div>
+
+
+
 
         {/* TaskForm component */}
         <TaskForm onSubmit={handleAddTask}

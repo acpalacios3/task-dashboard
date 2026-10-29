@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import type { TaskFormData } from "../../types";
+import type { TaskFormData, Task } from "../../types";
+
 
 // export type TaskStatus = 'pending' | 'in-progress' | 'completed';
 // export type TaskPriority = 'low' | 'medium' | 'high';
