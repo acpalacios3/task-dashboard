@@ -25,6 +25,9 @@ export default function TaskList({
   //  useState for sorting functionality
   const [sortBy, setSortBy] = useState<"title" | "dueDate">("title");
 
+  // state for search bar 
+const [searchTerm, setSearchTerm] = useState("");
+
 
   // filters tasks by status and priority.
   const filteredTasks = tasks.filter((task) => {
@@ -41,8 +44,16 @@ export default function TaskList({
     return matchesStatus && matchesPriority;
   });
 
+
+  // Searches tasks by title or description.
+const searchedTasks = filteredTasks.filter((task) =>
+  task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  task.description.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+
   //  sort by title and dueDate
-  const sortedTasks = [...filteredTasks].sort((a, b) => {
+  const sortedTasks = [...searchedTasks].sort((a, b) => {
     if (sortBy === "title") {
       return a.title.localeCompare(b.title);
     }
@@ -52,23 +63,42 @@ export default function TaskList({
 
 
   return (
-    <div>
+    <div className="mb-4">
 
       <TaskFilter onFilterChange={setFilters} />
 
-      <select
-          value={sortBy}
-          onChange={(event) =>
-            setSortBy(event.target.value as "title" | "dueDate")
-          }
-          className="mb-4 rounded-md border border-gray-300 bg-white p-2"
-        >
-          <option value="title">Sort by Title (A–Z)</option>
-          <option value="dueDate">Sort by Due Date</option>
-      </select>
+      <div>
+          <label htmlFor="search" className="mb-1 block font-medium">
+              Search tasks
+          </label>
+        
 
+          {/* enter text for search for tasks */}
+          <input
+              type="text"
+              placeholder="Search tasks by title or description.."
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              className="mb-4 w-full rounded-md border border-gray-300 bg-white p-2"
+          />
+      </div>
 
+      <div>
+          <label htmlFor="search" className="mb-1 block font-medium">
+              Sort by
+          </label>
 
+          <select
+              value={sortBy}
+              onChange={(event) =>
+                setSortBy(event.target.value as "title" | "dueDate")
+              }
+              className="mb-4 rounded-md border border-gray-300 bg-white p-2"
+            >
+              <option value="title">Sort by Title (A–Z)</option>
+              <option value="dueDate">Sort by Due Date</option>
+          </select>
+      </div>
 
       {/* {tasks.map((task) => ( */} 
       {/* {filteredTasks.map((task) => ( */}
