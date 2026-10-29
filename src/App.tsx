@@ -1,10 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TaskForm from "./components/TaskForm/TaskForm";
 import TaskList from "./components/TaskList/TaskList";
 import type { Task, TaskFormData, TaskStatus } from "./types";
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+
+  // useState keeps the data in memory. When we refresh the page, the tasks are lost.
+  // const [tasks, setTasks] = useState<Task[]>([]); 
+
+
+  // open your Task Dashboard, retrieves the tasks saved in the browser instead of always starting with an empty list.
+
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const savedTasks = localStorage.getItem("tasks");
+
+    return savedTasks ? JSON.parse(savedTasks) : [];
+});
+
+// add, edit, or delete a task, the information in localStorage is updated.
+
+useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}, [tasks]);
+
+
+
 
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
