@@ -51,6 +51,7 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
 
     },[taskToEdit]);
 
+
     // updates the corresponding field whenever the user types or selects a value
     function handleChange(
         event: React.ChangeEvent<
@@ -64,6 +65,7 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
             [name]: value,
         });
     }
+
 
     // handles form submission and prevents the browser's default behavior
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -161,7 +163,7 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
             </div>
              {/* submits the form  */}
             <button
-                className=" rounded-md border bg-blue-600 p-2 font-semibold text-white "
+                className=" rounded-md border bg-blue-600 p-2 font-semibold text-white"
                 type="submit"
             >
                 {taskToEdit ? "Update Task" : "Add Task"}

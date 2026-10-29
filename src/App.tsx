@@ -24,10 +24,9 @@ useEffect(() => {
 }, [tasks]);
 
 
-
+// Creates a new task or Edit 
 
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-
 
   function handleAddTask(formData: TaskFormData) {
   
@@ -84,12 +83,51 @@ useEffect(() => {
      setEditingTask(task);
    }
 
+
+   //  Export data to jSON format file
+ function handleExport() {
+    // convert formData into JSON text (null: we do not apply any filter or transformation,2 we use two spaces to visually organize the JSON. ) 
+    const jsonData = JSON.stringify(tasks, null, 2);
+
+    // Blob create a file, Blob is a browser API that allows for the creation of an object containing binary or text data.
+    const blob = new Blob([jsonData], {
+        type: "application/json",
+    });
+
+    // create a temporary URL
+    const url = URL.createObjectURL(blob);
+    // create a download link
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "tasks.json";
+
+    // start download
+    link.click();
+    // release temporary URL
+    URL.revokeObjectURL(url);
+}   
+
+
+
   return (
     <div className="min-h-screen bg-slate-100 p-8">
       <h1 className="text-1xl font-bold">
         Task Dashboard
       </h1>
       <div>
+
+
+        {/* Export tasks */}
+        <button
+            className=" rounded-md border bg-blue-600 p-2 font-semibold text-white"
+            type="button"
+            onClick={handleExport}
+           
+        >
+            Export Tasks
+        </button>
+
         {/* TaskForm component */}
         <TaskForm onSubmit={handleAddTask}
          taskToEdit={editingTask}
