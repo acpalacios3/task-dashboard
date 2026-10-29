@@ -128,7 +128,7 @@ export default function TaskForm({ onSubmit }: TaskFormProps) {
                 <input
                     id="dueDate"
                     name="dueDate"
-                    type="text"
+                    type="date"
                     value={formData.dueDate}
                     onChange={handleChange}
                 />

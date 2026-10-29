@@ -37,17 +37,15 @@ export default function TaskItem({
           className="rounded-md border bg-blue-600 p-2 font-semibold text-white"
           type="button"
           onClick={() => onDelete(task.id)}
-          
+
         >
           Delete
         </button>
-
 
         <button
           className="rounded-md border bg-blue-600 p-2 font-semibold text-white"
           type="button"
           onClick={() => onEdit(task)}
-          
         >
           Edit
         </button>
