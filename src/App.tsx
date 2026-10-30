@@ -183,19 +183,19 @@ const completedTasks = tasks.filter(
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
-      <h1 className="text-1xl font-bold">
+      <h1 className="mb-6 text-2xl font-bold text-gray-800">
         Task Dashboard
       </h1>
       <div>
 
 
-        <div className="flex gap-3 mb-6">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row">
 
               {/* Export tasks */}
               <button
                   type="button"
                   onClick={handleExport}
-                  className="bg-blue-600 text-white px-4 py-2 rounded"
+                  className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 sm:w-auto"
               >
                   Export Tasks
               </button>
@@ -204,7 +204,7 @@ const completedTasks = tasks.filter(
 
               <label
                   htmlFor="import-tasks"
-                  className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer"
+                  className="w-full cursor-pointer rounded bg-blue-600 px-4 py-2 text-center text-white hover:bg-blue-700 sm:w-auto"
               >
                   Import Tasks
               </label>
@@ -246,9 +246,10 @@ const completedTasks = tasks.filter(
             {completedTasks}</strong>
         </p>
 
-    </div>
+    </div >
 
         {/* TaskList component */}
+        
         <TaskList
           tasks={tasks}
           onStatusChange={handleStatusChange}

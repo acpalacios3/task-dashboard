@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import type { TaskFormData, Task } from "../../types";
-import { validateTask } from "../../utils/TaskUtils";
+// import { validateTask } from "../../utils/TaskUtils";
+import { ValidateTask } from "../../utils/ValidateTask";
+
+
 
 
 // export type TaskStatus = 'pending' | 'in-progress' | 'completed';
@@ -74,9 +77,9 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
 
         setFormData(updatedFormData);
 
-       // validate form data using validateTask
-      setErrors(validateTask(updatedFormData));
-        
+        // validate form data using validateTask
+        setErrors(ValidateTask(updatedFormData));
+
     }
 
 
@@ -86,7 +89,7 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
         event.preventDefault();
 
         // Validate the form data 
-        const validationErrors = validateTask(formData);
+        const validationErrors = ValidateTask(formData);
 
         setErrors(validationErrors);
         // Stop submission if validation fails
@@ -108,7 +111,19 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
 
     return (
         // renders the form fields and the submit button
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit}
+            noValidate
+            className="
+                    flex flex-col gap-1
+                    [&>div]:flex
+                    [&>div]:flex-col
+                    [&_input]:w-full
+                    [&_input]:max-w-xs
+                    [&_select]:w-full
+                    [&_select]:max-w-xs
+                "
+        >
+
 
             <div>
                 <label htmlFor="title">
@@ -217,7 +232,7 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
             </div>
             {/* submits the form  */}
             <button
-                className=" rounded-md border bg-blue-600 p-2 font-semibold text-white"
+                className="mt-2 w-full max-w-xs rounded-md border bg-blue-600 px-5 py-2 font-semibold text-white hover:bg-blue-700"
                 type="submit"
             >
                 {taskToEdit ? "Update Task" : "Add Task"}

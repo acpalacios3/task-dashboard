@@ -1,0 +1,30 @@
+### Reflection Document:
+
+**1. How you implemented React and TypeScript features**
+I used React functional components and Hooks to build the Task Dashboard.
+
+I used useState to manage the tasks, form data, editing state, and validation messages. I used useEffect to synchronize data with localStorage and to update the form when editing an existing task.
+
+I used props to pass data and callback functions between components. For example, the TaskForm component sends the task information to the parent component through the onSubmit callback.
+
+I also used TypeScript interfaces and types to define the structure of tasks, form data, and component props. This helped me keep the code organized and avoid type-related errors.
+
+
+**2. The challenges you encountered and how you overcame them**
+One challenge was implementing form validation to check that the required fields were completed before submitting a task.
+
+Another challenge was editing existing tasks. I used useEffect to load the selected task into the form and update its information.
+
+Finally, I worked on saving tasks in localStorage and implementing JSON import and export so that task information could be preserved and transferred.
+
+
+**3. Your approach to component composition and state management**
+I organized the application into smaller components, each with a specific responsibility.
+
+The App component manages the main task state and coordinates the application. TaskForm handles creating and editing tasks. TaskFilter manages filtering options, TaskList displays the tasks, and TaskItem displays the information for each individual task.
+
+I used useState in the parent component to manage the main task data. 
+
+For example, when a user clicks the Delete button in TaskItem, the component calls the onDelete function. The parent component receives the task ID, updates the state, and renders the updated list.
+
+

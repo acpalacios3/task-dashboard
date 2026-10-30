@@ -2,7 +2,7 @@
 
 export type TaskStatus = 'pending' | 'in-progress' | 'completed';
 export type TaskPriority = 'low' | 'medium' | 'high';
- 
+
 export interface Task {
   id: string;
   title: string;
@@ -27,8 +27,8 @@ export interface TaskFormData {
 
 export interface TaskListProps {
   tasks: Task[];
-  onStatusChange: (taskId: string, 
-                   newStatus: TaskStatus) => void;
+  onStatusChange: (taskId: string,
+    newStatus: TaskStatus) => void;
   onDelete: (taskId: string) => void;
   onEdit: (task: Task) => void;
 }
@@ -36,8 +36,8 @@ export interface TaskListProps {
 
 export interface TaskItemProps {
   task: Task;
-  onStatusChange: (taskId: string, 
-                   newStatus: TaskStatus) => void;
+  onStatusChange: (taskId: string,
+    newStatus: TaskStatus) => void;
   onDelete: (taskId: string) => void;
   onEdit: (task: Task) => void
 }
@@ -46,7 +46,7 @@ export interface TaskItemProps {
 // 4. TaskFilter options
 export interface TaskFilterProps {
   onFilterChange: (filters: {
-    status?: TaskStatus | 'all' ;
+    status?: TaskStatus | 'all';
     priority?: TaskPriority | 'all';
   }) => void;
 }

@@ -26,7 +26,7 @@ export default function TaskList({
   const [sortBy, setSortBy] = useState<"title" | "dueDate">("title");
 
   // state for search bar 
-const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
 
   // filters tasks by status and priority.
@@ -46,10 +46,10 @@ const [searchTerm, setSearchTerm] = useState("");
 
 
   // Searches tasks by title or description.
-const searchedTasks = filteredTasks.filter((task) =>
-  task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  task.description.toLowerCase().includes(searchTerm.toLowerCase())
-);
+  const searchedTasks = filteredTasks.filter((task) =>
+    task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    task.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
 
   //  sort by title and dueDate
@@ -63,48 +63,53 @@ const searchedTasks = filteredTasks.filter((task) =>
 
 
   return (
-    <div className="mb-4">
+    <div className="p-4">
+      <div >
 
-      <TaskFilter onFilterChange={setFilters} />
+        <TaskFilter onFilterChange={setFilters} />
 
-      <div>
+        <div>
           <label htmlFor="search" className="mb-1 block font-medium">
-              Search tasks
+            Search tasks
           </label>
-        
+
 
           {/* enter text for search for tasks */}
           <input
-              type="text"
-              placeholder="Search tasks by title or description.."
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              className="mb-4 w-full rounded-md border border-gray-300 bg-white p-2"
-          />
-      </div>
+            type="text"
+            placeholder="Search tasks by title or description.."
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            className="mb-4 max-w-xs rounded-md border border-gray-300 bg-white p-2 flex flex-col "
 
-      <div>
+          />
+        </div>
+
+        <div>
           <label htmlFor="search" className="mb-1 block font-medium">
-              Sort by
+            Sort by
           </label>
 
           <select
-              value={sortBy}
-              onChange={(event) =>
-                setSortBy(event.target.value as "title" | "dueDate")
-              }
-              className="mb-4 rounded-md border border-gray-300 bg-white p-2"
-            >
-              <option value="title">Sort by Title (A–Z)</option>
-              <option value="dueDate">Sort by Due Date</option>
+            value={sortBy}
+            onChange={(event) =>
+              setSortBy(event.target.value as "title" | "dueDate")
+            }
+            className="mb-4 max-w-xs rounded-md border border-gray-300 bg-white p-2 flex flex-col"
+
+          >
+            <option value="title">Sort by Title (A–Z)</option>
+            <option value="dueDate">Sort by Due Date</option>
           </select>
+        </div>
+
       </div>
 
-      {/* {tasks.map((task) => ( */} 
+      {/* {tasks.map((task) => ( */}
       {/* {filteredTasks.map((task) => ( */}
 
 
-        {sortedTasks.map((task) => (
+      {sortedTasks.map((task) => (
         <TaskItem
           key={task.id}
           task={task}

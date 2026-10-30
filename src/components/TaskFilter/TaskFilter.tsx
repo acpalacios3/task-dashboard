@@ -25,34 +25,50 @@ export default function TaskFilter({ onFilterChange, }: TaskFilterProps) {
     }
 
     return (
-        <div className="mb-4 flex flex-col gap-3 sm:flex-row">
-            <select
-                value={status}
-                onChange={(event) =>
-                    handleStatusChange(event.target.value as TaskStatus | "all")
-                }
-                className="rounded-md border border-gray-300 bg-white p-2"
-                aria-label="Filter by status"
-            >
-                <option value="all">All statuses</option>
-                <option value="pending">Pending</option>
-                <option value="in-progress">In Progress</option>
-                <option value="completed">Completed</option>
-            </select>
+        <div className="p-4">
+            <div className="mb-6 -mt-4 flex flex-wrap justify-start gap-4 pl-6">
 
-            <select
-                value={priority}
-                onChange={(event) =>
-                    handlePriorityChange(event.target.value as TaskPriority | "all")
-                }
-                className="rounded-md border border-gray-300 bg-white p-2"
-                aria-label="Filter by priority"
-            >
-                <option value="all">All priorities</option>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
+                <div>
+                    {/* Status Filter */}
+                    <label className="mb-1 block font-medium text-sm text-slate-700">
+                        Status:
+                    </label>
+
+                    <select
+                        value={status}
+                        onChange={(event) =>
+                            handleStatusChange(event.target.value as TaskStatus | "all")
+                        }
+                        className="rounded-md border border-gray-200 bg-white px-3 py-2 shadow-sm"
+
+                    >
+                        <option value="all">All statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div>
+                    {/* Priority Filter */}
+                    <label className="mb-1 block font-medium text-sm text-slate-700">
+                        Priority:
+                    </label>
+
+                    <select
+                        value={priority}
+                        onChange={(event) =>
+                            handlePriorityChange(event.target.value as TaskPriority | "all")
+                        }
+                        className="rounded-md border border-gray-200  px-3 py-2 shadow-sm"
+                        aria-label="Filter by priority"
+                    >
+                        <option value="all">All priorities</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+            </div>
         </div>
     );
 }

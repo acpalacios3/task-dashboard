@@ -1,7 +1,7 @@
-import type {TaskFormData } from "../types";
+import type { TaskFormData } from "../types";
 
 // Validate task form data before submitting.
-export function validateTask(task: TaskFormData): string[] {
+export function ValidateTask(task: TaskFormData): string[] {
 
     const errors: string[] = [];
 
