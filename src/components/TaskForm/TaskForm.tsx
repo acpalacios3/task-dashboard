@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import type { TaskFormData, Task } from "../../types";
+import { validateTask } from "../../utils/TaskUtils";
 
 
 // export type TaskStatus = 'pending' | 'in-progress' | 'completed';
@@ -32,26 +33,31 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
 
     // loads the selected task into the form for editing.
     useEffect(() => {
+        setErrors([]);
+
         if (taskToEdit) {
             setFormData({
-            title: taskToEdit.title,
-            description: taskToEdit.description,
-            status: taskToEdit.status,
-            priority: taskToEdit.priority,
-            dueDate: taskToEdit.dueDate,
+                title: taskToEdit.title,
+                description: taskToEdit.description,
+                status: taskToEdit.status,
+                priority: taskToEdit.priority,
+                dueDate: taskToEdit.dueDate,
             });
         } else {
             setFormData({
-            title: "",
-            description: "",
-            status: "pending",
-            priority: "medium",
-            dueDate: "",
+                title: "",
+                description: "",
+                status: "pending",
+                priority: "medium",
+                dueDate: "",
             });
         }
 
-    },[taskToEdit]);
+    }, [taskToEdit]);
 
+
+    // Stores validation error messages
+    const [errors, setErrors] = useState<string[]>([]);
 
     // updates the corresponding field whenever the user types or selects a value
     function handleChange(
@@ -61,17 +67,32 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
     ) {
         const { name, value } = event.target;
         // copies form data and updates only the changed field
-        setFormData({
+        const updatedFormData = {
             ...formData,
             [name]: value,
-        });
+        };
+
+        setFormData(updatedFormData);
+
+       // validate form data using validateTask
+      setErrors(validateTask(updatedFormData));
+        
     }
 
 
     // handles form submission and prevents the browser's default behavior
+
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
+        // Validate the form data 
+        const validationErrors = validateTask(formData);
+
+        setErrors(validationErrors);
+        // Stop submission if validation fails
+        if (validationErrors.length > 0) {
+            return;
+        }
         // sends the form data to the parent component through the callback
         onSubmit(formData);
 
@@ -87,9 +108,9 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
 
     return (
         // renders the form fields and the submit button
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
 
-            <div>  
+            <div>
                 <label htmlFor="title">
                     Task Title
                 </label>
@@ -99,14 +120,24 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
                     type="text"
                     value={formData.title}
                     onChange={handleChange}
-                    required
+                    // required
+                    className={`rounded-md border p-2 ${errors.includes("Task title is required.")
+                        ? "border-red-500"
+                        : "border-gray-300"
+                        }`}
                 />
+
+                {errors.includes("Title is required.") && (
+                    <p className="text-sm text-red-500">
+                        Task title is required.
+                    </p>
+                )}
             </div>
 
             <div>
 
-                <label htmlFor="descripcion">
-                    Descripcion
+                <label htmlFor="description">
+                    description
                 </label>
                 <input
                     id="description"
@@ -114,8 +145,13 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
                     type="text"
                     value={formData.description}
                     onChange={handleChange}
-                    required
+                // required
                 />
+                {errors.includes("Description is required.") && (
+                    <p className="text-sm text-red-500">
+                        Description is required.
+                    </p>
+                )}
 
             </div>
 
@@ -125,7 +161,7 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
                 <label htmlFor="status">
                     Status
                 </label>
-                <select 
+                <select
                     id="status"
                     name="status"
                     value={formData.status}
@@ -162,15 +198,24 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
                     Due Date
                 </label>
                 <input
+                    className="rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900
+               focus:outline-none focus:ring-2 focus:ring-blue-500
+               [color-scheme:light]"
+                    id="dueDate"
                     name="dueDate"
                     type="date"
                     value={formData.dueDate}
                     onChange={handleChange}
-                    required
+                // required
                 />
+                {errors.includes("Due date is required.") && (
+                    <p className="text-sm text-red-500">
+                        Due date is required.
+                    </p>
+                )}
 
             </div>
-             {/* submits the form  */}
+            {/* submits the form  */}
             <button
                 className=" rounded-md border bg-blue-600 p-2 font-semibold text-white"
                 type="submit"
