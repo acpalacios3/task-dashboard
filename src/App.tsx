@@ -145,7 +145,12 @@ async function handleImport(
             return;
         }
 
-        setTasks(importedTasks);
+        // setTasks(importedTasks);
+        // add imported tasks to those that already exist
+              setTasks((previousTasks) => [
+        ...previousTasks,
+        ...importedTasks,
+      ]);
 
         alert("Tasks imported successfully!");
 
@@ -156,6 +161,24 @@ async function handleImport(
 
     event.target.value = "";
 }
+
+
+// task statistics
+const totalTasks = tasks.length;
+
+const pendingTasks = tasks.filter(
+  (task) => task.status === "pending"
+).length;
+
+const inProgressTasks = tasks.filter(
+  (task) => task.status === "in-progress"
+).length;
+
+const completedTasks = tasks.filter(
+  (task) => task.status === "completed"
+).length;
+
+
 
 
   return (
@@ -193,18 +216,37 @@ async function handleImport(
                   onChange={handleImport}
                   className="hidden"
               />
-
-              
-</div>
+   </div>
 
 
+   {/* TaskForm component */}
+    <TaskForm onSubmit={handleAddTask}
+      taskToEdit={editingTask}
+    />
 
+    {/* Task Statistics */}
+    <div className="flex flex-wrap items-center gap-6 my-4 text-sm">
 
-        {/* TaskForm component */}
-        <TaskForm onSubmit={handleAddTask}
-         taskToEdit={editingTask}
-        
-        />
+        <p>Total: <strong>
+          {totalTasks}</strong> 
+        </p>
+
+        <p>
+        Pending:<strong className="text-yellow-600 ml-1">
+          {pendingTasks}</strong>
+        </p>
+
+        <p>
+          In Progress:<strong className="text-blue-600 ml-1">
+            {inProgressTasks}</strong>
+        </p>
+
+        <p>
+          Completed:<strong className="text-green-600 ml-1">
+            {completedTasks}</strong>
+        </p>
+
+    </div>
 
         {/* TaskList component */}
         <TaskList

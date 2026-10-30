@@ -99,6 +99,7 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
                     type="text"
                     value={formData.title}
                     onChange={handleChange}
+                    required
                 />
             </div>
 
@@ -113,6 +114,7 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
                     type="text"
                     value={formData.description}
                     onChange={handleChange}
+                    required
                 />
 
             </div>
@@ -123,13 +125,16 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
                 <label htmlFor="status">
                     Status
                 </label>
-                <input
+                <select 
                     id="status"
                     name="status"
-                    type="text"
                     value={formData.status}
                     onChange={handleChange}
-                />
+                >
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
 
             </div>
 
@@ -138,13 +143,16 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
                 <label htmlFor="priority">
                     Priority
                 </label>
-                <input
+                <select
                     id="priority"
                     name="priority"
-                    type="text"
                     value={formData.priority}
                     onChange={handleChange}
-                />
+                >
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
 
             </div>
 
@@ -154,11 +162,11 @@ export default function TaskForm({ onSubmit, taskToEdit }: TaskFormProps) {
                     Due Date
                 </label>
                 <input
-                    id="dueDate"
                     name="dueDate"
                     type="date"
                     value={formData.dueDate}
                     onChange={handleChange}
+                    required
                 />
 
             </div>
